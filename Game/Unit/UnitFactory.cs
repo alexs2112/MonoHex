@@ -8,11 +8,11 @@ namespace MonoHex {
 
         public UnitFactory(ContentManager content) {
             Sprites = new Dictionary<string, Sprite>();
-            Sprites.Add("Stick", new Sprite("Units", new Rectangle(0, 0, 128, 96)));
+            Sprites.Add("Worker", new Sprite("Units", new Rectangle(0, 0, 32, 32)));
         }
 
-        public Unit NewStick(Player p) {
-            Unit u = new Unit(p, "Stickman", Sprites["Stick"]);
+        public Unit NewWorker(Player p) {
+            Unit u = new Unit(p, "Worker", Sprites["Worker"]);
             u.SetStats(2, 2, 2, 2, 1, 2);
             return u;
         }

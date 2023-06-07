@@ -26,7 +26,8 @@ namespace MonoHex {
 
         public static Type RandomType() {
             System.Random r = new System.Random();
-            Type[] types = new Type[] { Type.PLAINS, Type.FOREST, Type.ROCKS, Type.CRYSTAL, Type.MOUNTAIN };
+            // Doesn't spawn Crystal yet
+            Type[] types = new Type[] { Type.PLAINS, Type.FOREST, Type.ROCKS, Type.MOUNTAIN };
             return types[r.Next(0, types.Length)];
         }
 

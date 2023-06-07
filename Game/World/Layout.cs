@@ -38,13 +38,13 @@ namespace MonoHex {
                 Structure s = World.GetStructure(h);
                 if (s != null) {
                     // TODO: Make a better way of colouring structures by owner
-                    s.Sprite.Draw(spriteBatch, HexStart(h), s.Owner.Colour);
+                    s.Sprite.DrawCentered(spriteBatch, HexRect(h), s.Owner.Colour);
                 }
 
                 Unit u = World.GetUnit(h);
                 if (u != null) {
                     // TODO: Make a better way of colouring units by owner
-                    u.Sprite.Draw(spriteBatch, HexStart(h), u.Owner.Colour);
+                    u.Sprite.DrawCentered(spriteBatch, HexRect(h), u.Owner.Colour);
                 }
             }
         }
@@ -58,11 +58,11 @@ namespace MonoHex {
                     // It is inefficient to calculate valid actions every single tick
                     List<Hex> moves = World.ValidMoves(selected);
                     foreach (Hex h in moves) {
-                        Sprites["Highlight"].Draw(spriteBatch, HexStart(h), new Color(Color.Green, 130));
+                        Sprites["Highlight"].Draw(spriteBatch, HexStart(h), new Color(Color.Green, 64));
                     }
                     List<Hex> attacks = World.ValidAttacks(selected);
                     foreach (Hex h in attacks) {
-                        Sprites["Highlight"].Draw(spriteBatch, HexStart(h), new Color(Color.Red, 130));
+                        Sprites["Highlight"].Draw(spriteBatch, HexStart(h), new Color(Color.Red, 64));
                     }
                 }
             }
@@ -80,6 +80,11 @@ namespace MonoHex {
             int x = (int)((Regular.X * hex.q + Regular.Y * hex.r) * SizeX);
             int y = (int)((Regular.Z * hex.q + Regular.W * hex.r) * SizeY);
             return ApplyOffsetRegular(x, y);
+        }
+
+        private Rectangle HexRect(Hex hex) {
+            Vector2 start = HexStart(hex);
+            return new Rectangle((int)start.X, (int)start.Y, HexWidth, HexHeight);
         }
 
         public Hex GetHex(Point p) {

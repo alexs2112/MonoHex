@@ -22,6 +22,7 @@ namespace MonoHex {
         public Sprite(string atlas, Rectangle source) { Atlas = atlas; Source = source; Frames = 1; }
         public Sprite(string atlas, Rectangle source, int frames) { Atlas = atlas; Source = source; Frames = frames; }
 
+        // Currently unused, for animations
         public void Update() {
             if (Frames == 1) { return; }
             CurrentFrame++;
@@ -35,6 +36,12 @@ namespace MonoHex {
             
             Rectangle dest = new Rectangle((int)location.X, (int)location.Y, Source.Width, Source.Height);
             spriteBatch.Draw(Textures[Atlas], dest, s, colour);
+        }
+        public void DrawCentered(SpriteBatch spriteBatch, Rectangle destination) { DrawCentered(spriteBatch, destination, Color.White); }
+        public void DrawCentered(SpriteBatch spriteBatch, Rectangle destination, Color colour) {
+            int x = (destination.Width - Source.Width) / 2 + destination.X;
+            int y = (destination.Height - Source.Height) / 2 + destination.Y;
+            Draw(spriteBatch, new Vector2(x, y), colour);
         }
     }
 }

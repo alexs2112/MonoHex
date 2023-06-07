@@ -124,7 +124,7 @@ namespace MonoHex {
         public void SetupMap(UnitFactory units, StructureFactory structures) {
             (int q, int r, int s, int f)[] start = new (int, int, int, int)[] { (0, 3, -3, 0), (0, -3, 3, 1), (-3, 2, 1, 0), (3, -2, -1, 1) };
             foreach ((int q, int r, int s, int player) hex in start) {
-                Unit u = units.NewStick(Players[hex.player]);
+                Unit u = units.NewWorker(Players[hex.player]);
                 AddUnit(u, new Hex(hex.q, hex.r, hex.s));
 
                 if (Players[hex.player].Capital == null) {

@@ -8,7 +8,7 @@ namespace MonoHex {
 
         public StructureFactory(ContentManager content) {
             Sprites = new Dictionary<string, Sprite>();
-            Sprites.Add("Capital", new Sprite("Structures", new Rectangle(0, 0, 128, 96)));
+            Sprites.Add("Capital", new Sprite("Structures", new Rectangle(0, 0, 64, 96)));
         }
 
         public Structure NewCapital(Player p) {
