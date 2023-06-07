@@ -10,7 +10,7 @@ namespace MonoHex {
         private Rectangle Window;
         private int CenterX;
         private int CenterY;
-        private static Dictionary<string, Texture2D> Textures;
+        private static Dictionary<string, Sprite> Sprites;
         
         public Layout(World world, Rectangle window) {
             World = world;
@@ -24,39 +24,45 @@ namespace MonoHex {
         }
 
         public static void LoadContent(ContentManager content) {
-            Textures = new Dictionary<string, Texture2D>();
+            Sprites = new Dictionary<string, Sprite>();
 
-            Textures.Add("Hex", content.Load<Texture2D>("Tiles/Hex"));
-            Textures.Add("Border", content.Load<Texture2D>("Tiles/Border"));
-            Textures.Add("Highlight", content.Load<Texture2D>("Tiles/Highlight"));
+            Sprites.Add("Hex", new Sprite("Hexes", new Rectangle(0, 0, 128, 96)));
+            Sprites.Add("Border", new Sprite("Hexes", new Rectangle(128, 0, 128, 96)));
+            Sprites.Add("Highlight", new Sprite("Hexes", new Rectangle(256, 0, 128, 96)));
         }
 
         public void DrawWorld(SpriteBatch spriteBatch, ContentManager content) {
             foreach (Hex h in World.Hexes) {
-                spriteBatch.Draw(Biome.GetSprite(World.Biomes[h]), HexStart(h), Color.White);
+                Biome.GetSprite(World.Biomes[h]).Draw(spriteBatch, HexStart(h));
+
+                Structure s = World.GetStructure(h);
+                if (s != null) {
+                    // TODO: Make a better way of colouring structures by owner
+                    s.Sprite.Draw(spriteBatch, HexStart(h), s.Owner.Colour);
+                }
 
                 Unit u = World.GetUnit(h);
                 if (u != null) {
                     // TODO: Make a better way of colouring units by owner
-                    spriteBatch.Draw(u.Sprite, HexStart(h), u.Owner.Colour);
+                    u.Sprite.Draw(spriteBatch, HexStart(h), u.Owner.Colour);
                 }
             }
         }
 
         public void DrawOverlay(SpriteBatch spriteBatch, Hex selected) {
             if (selected != null) {
-                spriteBatch.Draw(Textures["Border"], HexStart(selected), Color.Blue);
+                Sprites["Border"].Draw(spriteBatch, HexStart(selected), Color.Blue);
 
                 Unit u = World.GetUnit(selected);
                 if (u != null) {
                     // It is inefficient to calculate valid actions every single tick
                     List<Hex> moves = World.ValidMoves(selected);
                     foreach (Hex h in moves) {
-                        spriteBatch.Draw(Textures["Highlight"], HexStart(h), new Color(Color.Green, 130));
+                        Sprites["Highlight"].Draw(spriteBatch, HexStart(h), new Color(Color.Green, 130));
                     }
                     List<Hex> attacks = World.ValidAttacks(selected);
                     foreach (Hex h in attacks) {
-                        spriteBatch.Draw(Textures["Highlight"], HexStart(h), new Color(Color.Red, 130));
+                        Sprites["Highlight"].Draw(spriteBatch, HexStart(h), new Color(Color.Red, 130));
                     }
                 }
             }

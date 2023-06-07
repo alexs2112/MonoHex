@@ -1,10 +1,8 @@
-using Microsoft.Xna.Framework.Graphics;
-
 namespace MonoHex {
     public class Unit {
         public Player Owner { get; private set; }
         public string Name { get; private set; }
-        public Texture2D Sprite { get; private set; }
+        public Sprite Sprite { get; private set; }
 
         public int Health { get; private set; }
         public int MaxArmor { get; private set; }
@@ -15,7 +13,7 @@ namespace MonoHex {
         public int Initiative { get; private set; }
         public int Range { get; private set; }
         
-        public Unit(Player owner, string name, Texture2D sprite) {
+        public Unit(Player owner, string name, Sprite sprite) {
             Owner = owner;
             Name = name;
             Sprite = sprite;

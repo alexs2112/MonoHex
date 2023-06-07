@@ -15,8 +15,8 @@ namespace MonoHex {
             GenerateTiles();
 
             Players = new List<Player>();
-            Players.Add(new Player(Color.Aquamarine));
-            Players.Add(new Player(Color.OrangeRed));
+            Players.Add(new Player("Player A", Color.Aquamarine));
+            Players.Add(new Player("Player B", Color.OrangeRed));
 
             Units = new Dictionary<Hex, Unit>();
             foreach (Hex h in Hexes) { Units[h] = null; }
@@ -90,7 +90,19 @@ namespace MonoHex {
         // ********** //
         // STRUCTURES //
         // ********** //
-
+        public void AddStructure(Structure s, Hex h) { Structures[h] = s; }
+        public Structure GetStructure(Hex h) { return Structures[h]; }
+        public List<Structure> GetStructures() { return GetStructures(null); }
+        public List<Structure> GetStructures(Player p) {
+            List<Structure> o = new List<Structure>();
+            foreach (Hex h in Hexes) {
+                Structure s = GetStructure(h);
+                if (s != null) {
+                    if (p == null || s.Owner == p) { o.Add(s); }
+                }
+            }
+            return o;
+        }
 
         // ***** //
         // SETUP //
@@ -107,11 +119,19 @@ namespace MonoHex {
                 }
             }
         }
-        public void SetupMap(UnitFactory factory) {
-            (int q, int r, int s, int f)[] start = new (int, int, int, int)[] { (0, 3, -3, 0), (0, -3, 3, 0), (-3, 2, 1, 1), (3, -2, -1, 1) };
-            foreach ((int q, int r, int s, int f) hex in start) {
-                Unit u = factory.NewStick(Players[hex.f]);
+
+        // Temporary method for setting up a test map
+        public void SetupMap(UnitFactory units, StructureFactory structures) {
+            (int q, int r, int s, int f)[] start = new (int, int, int, int)[] { (0, 3, -3, 0), (0, -3, 3, 1), (-3, 2, 1, 0), (3, -2, -1, 1) };
+            foreach ((int q, int r, int s, int player) hex in start) {
+                Unit u = units.NewStick(Players[hex.player]);
                 AddUnit(u, new Hex(hex.q, hex.r, hex.s));
+
+                if (Players[hex.player].Capital == null) {
+                    Players[hex.player].Capital = new Hex(hex.q, hex.r, hex.s);
+                    Structure s = structures.NewCapital(Players[hex.player]);
+                    AddStructure(s, new Hex(hex.q, hex.r, hex.s));
+                }
             }
         }
     }

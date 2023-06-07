@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace MonoHex {
@@ -12,16 +12,16 @@ namespace MonoHex {
             MOUNTAIN
         }
 
-        private static Dictionary<Type, Texture2D> Textures;
+        private static Dictionary<Type, Sprite> Sprites;
 
         public static void LoadContent(ContentManager content) {
-            Textures = new Dictionary<Type, Texture2D>();
+            Sprites = new Dictionary<Type, Sprite>();
 
-            Textures.Add(Type.PLAINS, content.Load<Texture2D>("Tiles/Plains"));
-            Textures.Add(Type.FOREST, content.Load<Texture2D>("Tiles/Forest"));
-            Textures.Add(Type.ROCKS, content.Load<Texture2D>("Tiles/Rocks"));
-            Textures.Add(Type.CRYSTAL, content.Load<Texture2D>("Tiles/Crystal"));
-            Textures.Add(Type.MOUNTAIN, content.Load<Texture2D>("Tiles/Mountain"));
+            Sprites.Add(Type.PLAINS, new Sprite("Hexes", new Rectangle(0, 96, 128, 96)));
+            Sprites.Add(Type.FOREST, new Sprite("Hexes", new Rectangle(128, 96, 128, 96)));
+            Sprites.Add(Type.ROCKS, new Sprite("Hexes", new Rectangle(256, 96, 128, 96)));
+            Sprites.Add(Type.CRYSTAL, new Sprite("Hexes", new Rectangle(384, 96, 128, 96)));
+            Sprites.Add(Type.MOUNTAIN, new Sprite("Hexes", new Rectangle(512, 96, 128, 96)));
         }
 
         public static Type RandomType() {
@@ -30,8 +30,8 @@ namespace MonoHex {
             return types[r.Next(0, types.Length)];
         }
 
-        public static Texture2D GetSprite(Type type) {
-            return Textures[type];
+        public static Sprite GetSprite(Type type) {
+            return Sprites[type];
         }
     }
 }

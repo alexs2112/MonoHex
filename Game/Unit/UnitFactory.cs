@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoHex {
     public class UnitFactory {
-        private Dictionary<string, Texture2D> Sprites;
+        private Dictionary<string, Sprite> Sprites;
 
         public UnitFactory(ContentManager content) {
-            Sprites = new Dictionary<string, Texture2D>();
-            Sprites.Add("Stick", content.Load<Texture2D>("Units/Stick"));
+            Sprites = new Dictionary<string, Sprite>();
+            Sprites.Add("Stick", new Sprite("Units", new Rectangle(0, 0, 128, 96)));
         }
 
         public Unit NewStick(Player p) {
