@@ -11,11 +11,11 @@ namespace MonoHex {
 
         private MouseHandler Mouse;
         private KeyHandler KeyHandler;
-
-        private World World;
         private Layout Layout;
-        private UnitFactory UnitFactory;
-        private StructureFactory StructureFactory;
+
+        public World World;
+        public UnitFactory UnitFactory;
+        public StructureFactory StructureFactory;
 
         private int TurnCount;
         private Hex SelectedHex;
@@ -59,7 +59,8 @@ namespace MonoHex {
             Mouse.Update();
             KeyHandler.Update(Keyboard.GetState().GetPressedKeys());
 
-            // Mouse Commands
+            // Mouse Commands 
+            // TODO: Clean up this logic
             if (Mouse.LeftClicked()) {
                 Hex nextHex = Layout.GetHex(Mouse.Position());
                 if (!World.InWorld(nextHex)) { SelectedHex = null; }
@@ -74,13 +75,26 @@ namespace MonoHex {
                 } else {
                     SelectedHex = nextHex;
                 }
-            
+            } else if (Mouse.RightClicked()) {
+                SelectedHex = null;
+
+                Hex hex = Layout.GetHex(Mouse.Position());
+                Unit u = World.GetUnit(hex);
+                if (u != null && Constants.Verbosity > 0) { u.PrintStats(); }
+            }
+
             // Keyboard Commands
-            } else if (KeyHandler.KeyJustPressed()) {
+            else if (KeyHandler.KeyJustPressed()) {
                 if (KeyHandler.KeyJustPressed(Keys.Enter)) {
                     Upkeep();
                 } else if (KeyHandler.KeyJustPressed(Keys.Escape)) {
                     Exit();
+                } else if (SelectedHex != null && World.GetUnit(SelectedHex) != null) {
+                    Unit u = World.GetUnit(SelectedHex);
+                    int i = KeyHandler.NumberPressed();
+                    if (i > 0 && u.Abilities.Count <= i) {
+                        u.Abilities[i - 1].Call(u, SelectedHex, this);
+                    }
                 }
             }
 

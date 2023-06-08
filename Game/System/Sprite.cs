@@ -17,10 +17,13 @@ namespace MonoHex {
 
         private string Atlas;
         private Rectangle Source;
+        private Rectangle Highlight;
         private int Frames;
         private int CurrentFrame;
         public Sprite(string atlas, Rectangle source) { Atlas = atlas; Source = source; Frames = 1; }
         public Sprite(string atlas, Rectangle source, int frames) { Atlas = atlas; Source = source; Frames = frames; }
+        public Sprite(string atlas, Rectangle source, Rectangle highlight) { Atlas = atlas; Source = source; Highlight = highlight; Frames = 1; }
+        public Sprite(string atlas, Rectangle source, Rectangle highlight, int frames) { Atlas = atlas; Source = source; Highlight = highlight; Frames = frames; }
 
         // Currently unused, for animations
         public void Update() {
@@ -35,7 +38,15 @@ namespace MonoHex {
             if (Frames > 1) { s.X += Source.Width * CurrentFrame; }
             
             Rectangle dest = new Rectangle((int)location.X, (int)location.Y, Source.Width, Source.Height);
-            spriteBatch.Draw(Textures[Atlas], dest, s, colour);
+            if (!Highlight.IsEmpty) {
+                spriteBatch.Draw(Textures[Atlas], dest, s, Color.White);
+
+                Rectangle s2 = Highlight;
+                if (Frames > 1) { s2.X += Highlight.Width * CurrentFrame; }
+                spriteBatch.Draw(Textures[Atlas], dest, s2, colour);
+            } else {
+                spriteBatch.Draw(Textures[Atlas], dest, s, colour);
+            }
         }
         public void DrawCentered(SpriteBatch spriteBatch, Rectangle destination) { DrawCentered(spriteBatch, destination, Color.White); }
         public void DrawCentered(SpriteBatch spriteBatch, Rectangle destination, Color colour) {

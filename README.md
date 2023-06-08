@@ -1,7 +1,7 @@
 # MonoHex
 * A simple 4X strategy game on a small hex map using the MonoGame library.
 
-![Screenshot](https://i.imgur.com/CRWzZE7.png)
+![Screenshot](https://i.imgur.com/1pNMCwq.png)
 
 # Design
 * The key is simple deterministic combat and a condensed amount of content to prevent feature creep and untested complexity.

@@ -34,7 +34,10 @@ namespace MonoHex {
         // UNITS //
         // ***** //
         public void AddUnit(Unit u, Hex h) { Units[h] = u; }
-        public Unit GetUnit(Hex h) { return Units[h]; }
+        public Unit GetUnit(Hex h) { 
+            if (!Units.ContainsKey(h)) { return null; }
+            return Units[h];
+        }
         public void MoveUnit(Hex a, Hex b) {
             Unit u = GetUnit(a);
             if (u == null) { return; }

@@ -29,5 +29,18 @@ namespace MonoHex {
         public bool KeyPressed(Keys key) {
             return CurrentKeys.Contains(key);
         }
+
+        public int NumberPressed() {
+            if (CurrentKeys.Contains(Keys.D1)) { return 1; }
+            // if (CurrentKeys.Contains(Keys.D2)) { return 2; }
+            // if (CurrentKeys.Contains(Keys.D3)) { return 3; }
+            // if (CurrentKeys.Contains(Keys.D4)) { return 4; }
+            // if (CurrentKeys.Contains(Keys.D5)) { return 5; }
+            // if (CurrentKeys.Contains(Keys.D6)) { return 6; }
+            // if (CurrentKeys.Contains(Keys.D7)) { return 7; }
+            // if (CurrentKeys.Contains(Keys.D8)) { return 8; }
+            // if (CurrentKeys.Contains(Keys.D9)) { return 9; }
+            return -1;
+        }
     }
 }

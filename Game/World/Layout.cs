@@ -37,13 +37,11 @@ namespace MonoHex {
 
                 Structure s = World.GetStructure(h);
                 if (s != null) {
-                    // TODO: Make a better way of colouring structures by owner
                     s.Sprite.DrawCentered(spriteBatch, HexRect(h), s.Owner.Colour);
                 }
 
                 Unit u = World.GetUnit(h);
                 if (u != null) {
-                    // TODO: Make a better way of colouring units by owner
                     u.Sprite.DrawCentered(spriteBatch, HexRect(h), u.Owner.Colour);
                 }
             }
@@ -89,7 +87,7 @@ namespace MonoHex {
 
         public Hex GetHex(Point p) {
             Hex hex = HexRound(GetFractionalHex(p));
-            if (Constants.Verbosity > 0) System.Console.WriteLine($"({hex.q}, {hex.r}, {hex.s})");
+            if (Constants.Verbosity > 1) System.Console.WriteLine($"({hex.q}, {hex.r}, {hex.s})");
             return hex;
         }
 
