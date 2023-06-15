@@ -32,8 +32,8 @@ namespace MonoHex {
 
         public int NumberPressed() {
             if (CurrentKeys.Contains(Keys.D1)) { return 1; }
-            // if (CurrentKeys.Contains(Keys.D2)) { return 2; }
-            // if (CurrentKeys.Contains(Keys.D3)) { return 3; }
+            if (CurrentKeys.Contains(Keys.D2)) { return 2; }
+            if (CurrentKeys.Contains(Keys.D3)) { return 3; }
             // if (CurrentKeys.Contains(Keys.D4)) { return 4; }
             // if (CurrentKeys.Contains(Keys.D5)) { return 5; }
             // if (CurrentKeys.Contains(Keys.D6)) { return 6; }

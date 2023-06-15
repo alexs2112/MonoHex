@@ -43,6 +43,10 @@ namespace MonoHex {
                 Unit u = World.GetUnit(h);
                 if (u != null) {
                     u.Sprite.DrawCentered(spriteBatch, HexRect(h), u.Owner.Colour);
+
+                    if (u.HasActivated) {
+                        u.Sprite.DrawSourceCentered(spriteBatch, HexRect(h), new Color(Color.Black, 160));
+                    }
                 }
             }
         }

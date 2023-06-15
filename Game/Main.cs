@@ -51,6 +51,8 @@ namespace MonoHex {
             StructureFactory = new StructureFactory(Content);
             World.SetupMap(UnitFactory, StructureFactory);
             Layout = new Layout(World, new Rectangle(0, 0, Constants.ScreenWidth, Constants.ScreenHeight));
+
+            Upkeep();
         }
 
         protected override void Update(GameTime gameTime) {
@@ -92,8 +94,9 @@ namespace MonoHex {
                 } else if (SelectedHex != null && World.GetUnit(SelectedHex) != null) {
                     Unit u = World.GetUnit(SelectedHex);
                     int i = KeyHandler.NumberPressed();
-                    if (i > 0 && u.Abilities.Count <= i) {
+                    if (i > 0 && u.Abilities.Count >= i) {
                         u.Abilities[i - 1].Call(u, SelectedHex, this);
+                        SelectedHex = null;
                     }
                 }
             }
@@ -115,6 +118,7 @@ namespace MonoHex {
         // This happens at the beginning of a new round
         private void Upkeep() {
             TurnCount++;
+            SelectedHex = null;
 
             (int food, int material, int gold, int crystal)[] deltas = new (int food, int material, int gold, int crystal)[World.Players.Count];
             if (Constants.Verbosity > 0) {
@@ -127,6 +131,11 @@ namespace MonoHex {
             List<Structure> structures = World.GetStructures();
             foreach (Structure s in structures) {
                 s.Upkeep();
+            }
+
+            List<Unit> units = World.GetUnits();
+            foreach (Unit u in units) {
+                u.Upkeep();
             }
 
             if (Constants.Verbosity > 0) {

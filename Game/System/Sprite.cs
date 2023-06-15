@@ -48,11 +48,39 @@ namespace MonoHex {
                 spriteBatch.Draw(Textures[Atlas], dest, s, colour);
             }
         }
+
         public void DrawCentered(SpriteBatch spriteBatch, Rectangle destination) { DrawCentered(spriteBatch, destination, Color.White); }
         public void DrawCentered(SpriteBatch spriteBatch, Rectangle destination, Color colour) {
             int x = (destination.Width - Source.Width) / 2 + destination.X;
             int y = (destination.Height - Source.Height) / 2 + destination.Y;
             Draw(spriteBatch, new Vector2(x, y), colour);
+        }
+
+        public void DrawSource(SpriteBatch spriteBatch, Vector2 location, Color colour) {
+            Rectangle dest = new Rectangle((int)location.X, (int)location.Y, Source.Width, Source.Height);
+
+            Rectangle s = Source;
+            if (Frames > 1) { s.X += Source.Width * CurrentFrame; }
+            spriteBatch.Draw(Textures[Atlas], dest, s, colour);
+        }
+        public void DrawSourceCentered(SpriteBatch spriteBatch, Rectangle destination, Color colour) {
+            int x = (destination.Width - Source.Width) / 2 + destination.X;
+            int y = (destination.Height - Source.Height) / 2 + destination.Y;
+            DrawSource(spriteBatch, new Vector2(x, y), colour);
+        }
+
+        public void DrawHighlight(SpriteBatch spriteBatch, Vector2 location, Color colour) {
+            if (Highlight.IsEmpty) { return; }
+            Rectangle dest = new Rectangle((int)location.X, (int)location.Y, Source.Width, Source.Height);
+
+            Rectangle s = Highlight;
+            if (Frames > 1) { s.X += Highlight.Width * CurrentFrame; }
+            spriteBatch.Draw(Textures[Atlas], dest, s, colour);
+        }
+        public void DrawHighlightCentered(SpriteBatch spriteBatch, Rectangle destination, Color colour) {
+            int x = (destination.Width - Highlight.Width) / 2 + destination.X;
+            int y = (destination.Height - Highlight.Height) / 2 + destination.Y;
+            DrawHighlight(spriteBatch, new Vector2(x, y), colour);
         }
     }
 }

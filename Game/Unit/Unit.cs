@@ -16,6 +16,10 @@ namespace MonoHex {
         public int Initiative { get; private set; }
         public int Range { get; private set; }
 
+        // These stats get refreshed every turn
+        public int Movement { get; set; }
+        public bool HasActivated { get; set; }
+
         public List<Ability> Abilities { get; private set; }
         
         public Unit(Player owner, string name, Sprite sprite) {
@@ -33,6 +37,7 @@ namespace MonoHex {
             Damage = damage;
             Strength = strength;
             Speed = speed;
+            Movement = speed;
             Initiative = initiative;
             Range = range;
         }
@@ -42,6 +47,8 @@ namespace MonoHex {
         }
 
         public void AttackUnit(Unit target) {
+            HasActivated = true;
+            Movement = 0;
             if (target.Armor >= Damage) {
                 target.Armor -= Damage;
             } else {
@@ -50,6 +57,11 @@ namespace MonoHex {
                 target.Health -= d;
                 if (target.Health < 0) { target.Health = 0; }
             }
+        }
+
+        public void Upkeep() {
+            Movement = Speed;
+            HasActivated = false;
         }
 
         public void PrintStats() {

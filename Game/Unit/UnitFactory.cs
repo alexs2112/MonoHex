@@ -16,7 +16,9 @@ namespace MonoHex {
         public Unit NewWorker(Player p) {
             Unit u = new Unit(p, "Worker", Sprites["Worker"]);
             u.SetStats(2, 2, 2, 2, 1, 2);
-            u.AddAbility(new BuildFarm());
+            u.AddAbility(new BuildStructure("Farm"));
+            u.AddAbility(new BuildStructure("Camp"));
+            u.AddAbility(new BuildStructure("Mine"));
             return u;
         }
     }

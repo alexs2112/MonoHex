@@ -28,14 +28,14 @@
 **Resources**:
 * Food: Used to build units and feed them. Being unable to feed your units causes an empire-wide debuff
 * Material: Used by Villagers to construct buildings
-* Gold: Used to pay military units. Produced by buildings in the form of taxes. Used to buy other resources and mercenaries in the Marketplace.
+* Gold: Used to pay military units. Used to buy other resources and mercenaries in the Marketplace
 * Crystal: Used to upgrade individual buildings or units
 * Population Cap: Restricts the number of units that can be built, this is increased by building houses
 
 **World Tiles**:
 * Plains: Can construct Farms to produce Food
-* Forest: Can construct a Lodge to produce both Material and little Food
-* Rocks: Can construct a Mine to produce Material
+* Forest: Can construct a Camp to produce Material
+* Rocks: Can construct a Mine to produce Gold
 * Crystal: Can construct a Mine to produce Crystal
 * Mountains: Units cannot enter this tile
 

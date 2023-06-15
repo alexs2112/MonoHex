@@ -38,11 +38,24 @@ namespace MonoHex {
             if (!Units.ContainsKey(h)) { return null; }
             return Units[h];
         }
+        public List<Unit> GetUnits() { return GetUnits(null); }
+        public List<Unit> GetUnits(Player p) {
+            List<Unit> o = new List<Unit>();
+            foreach (Hex h in Hexes) {
+                Unit u = GetUnit(h);
+                if (u != null) {
+                    if (p == null || u.Owner == p) { o.Add(u); }
+                }
+            }
+            return o;
+        }
         public void MoveUnit(Hex a, Hex b) {
             Unit u = GetUnit(a);
             if (u == null) { return; }
             Units[a] = null;
             Units[b] = u;
+
+            u.Movement -= Hex.Distance(a, b);
         }
         public bool IsValidMove(Hex a, Hex b) {
             List<Hex> moves = ValidMoves(a);
@@ -53,10 +66,11 @@ namespace MonoHex {
             List<Hex> moves = new List<Hex>();
             Unit u = GetUnit(hex);
             if (u == null) { return moves; }
+            if (u.Movement <= 0 || u.HasActivated) { return moves; }
             foreach (Hex h in Hexes) {
                 if (GetUnit(h) != null) { continue; }
                 if (Biomes[h] == Biome.Type.MOUNTAIN) { continue; }
-                if (Hex.Distance(hex, h) <= u.Speed) { moves.Add(h); }
+                if (Hex.Distance(hex, h) <= u.Movement) { moves.Add(h); }
             }
             return moves;
         }
@@ -69,6 +83,7 @@ namespace MonoHex {
             List<Hex> attacks = new List<Hex>();
             Unit u = GetUnit(h);
             if (u == null) { return attacks; }
+            if (u.HasActivated == true) { return attacks; }
             foreach ((Hex hex, Unit unit) in Units) {
                 if (unit == null) { continue; }
                 if (Hex.Distance(h, hex) > u.Range) { continue; }
